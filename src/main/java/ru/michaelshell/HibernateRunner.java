@@ -6,10 +6,13 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.michaelshell.entity.Birthday;
+import ru.michaelshell.entity.PersonalInfo;
 import ru.michaelshell.entity.User;
 import ru.michaelshell.util.HibernateUtil;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 @Slf4j
 public class HibernateRunner {
@@ -19,8 +22,12 @@ public class HibernateRunner {
     public static void main(String[] args) throws SQLException {
 
         User user = User.builder()
-                .firstname("Ivan")
-                .username("Myst2003")
+                .personalInfo(PersonalInfo.builder()
+                        .firstname("Michael")
+                        .lastname("Shell1")
+                        .birthDate(new Birthday(LocalDate.of(1982, 8, 3)))
+                        .build())
+                .username("Myst2019")
                 .build();
         log.info("user entity is in transient state: {}", user);
 
