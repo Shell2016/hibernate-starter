@@ -1,20 +1,85 @@
 package ru.michaelshell;
 
+import lombok.Cleanup;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Test;
+import ru.michaelshell.entity.Company;
 import ru.michaelshell.entity.User;
+import ru.michaelshell.util.HibernateUtil;
 
 import javax.persistence.Column;
 import javax.persistence.Table;
 import java.lang.reflect.Field;
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.joining;
-import static org.junit.jupiter.api.Assertions.*;
 
 class HibernateRunnerTest {
+
+    @Test
+    void orphanRemoval() {
+        @Cleanup SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+        @Cleanup Session session = sessionFactory.openSession();
+
+        session.beginTransaction();
+
+        Company company = session.get(Company.class, 5);
+        company.getUsers().removeIf(user -> user.getId().equals(4L));
+
+        session.getTransaction().commit();
+
+    }
+
+    @Test
+    void deleteCompany() {
+        @Cleanup SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+        @Cleanup Session session = sessionFactory.openSession();
+
+        session.beginTransaction();
+
+        Company company = session.get(Company.class, 6);
+        session.delete(company);
+
+        session.getTransaction().commit();
+
+    }
+
+    @Test
+    void newCompanyAndUser() {
+        @Cleanup SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+        @Cleanup Session session = sessionFactory.openSession();
+
+        session.beginTransaction();
+        Company company = Company.builder()
+                .name("Yandex")
+                .build();
+        User user = User.builder()
+                .username("Shell123")
+                .build();
+        company.addUser(user);
+        session.save(company);
+
+        session.getTransaction().commit();
+
+    }
+
+
+    @Test
+    void oneToMany() {
+        @Cleanup SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+        @Cleanup Session session = sessionFactory.openSession();
+
+        session.beginTransaction();
+
+        Company company = session.get(Company.class, 5);
+        System.out.println(" ");
+
+
+        session.getTransaction().commit();
+    }
+
 
     @Test
     void checkReflectionApi() throws IllegalAccessException {

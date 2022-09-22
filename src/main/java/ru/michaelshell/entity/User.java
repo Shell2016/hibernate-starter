@@ -1,31 +1,28 @@
 package ru.michaelshell.entity;
 
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
-import ru.michaelshell.converter.BirthdayConverter;
-
 
 import javax.persistence.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(of = "username")
+@ToString(exclude = "company")
 @Builder
 @Entity
 @Table(name = "users")
 @TypeDef(name = "testType", typeClass = JsonBinaryType.class)
 public class User {
 
-    //    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @EmbeddedId
+//    @Embedded - не обязательно
 //    @AttributeOverride(name = "birthDate", column = @Column(name = "birth_date"))
     private PersonalInfo personalInfo;
 
@@ -38,4 +35,8 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id") //не обязательно в нашем случае
+    private Company company;
 }
