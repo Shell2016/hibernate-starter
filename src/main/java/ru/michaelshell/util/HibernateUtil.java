@@ -6,8 +6,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy;
 import org.hibernate.cfg.Configuration;
 import ru.michaelshell.converter.BirthdayConverter;
-import ru.michaelshell.entity.Company;
-import ru.michaelshell.entity.User;
 
 @UtilityClass
 public class HibernateUtil {
@@ -16,8 +14,8 @@ public class HibernateUtil {
         Configuration configuration = new Configuration();
         configuration.addAttributeConverter(new BirthdayConverter());
         configuration.registerTypeOverride(new JsonBinaryType());
-        configuration.addAnnotatedClass(User.class);
-        configuration.addAnnotatedClass(Company.class);
+//        configuration.addAnnotatedClass(User.class);
+//        configuration.addAnnotatedClass(Company.class);
         configuration.setPhysicalNamingStrategy(new CamelCaseToUnderscoresNamingStrategy());
         configuration.configure();
         return configuration.buildSessionFactory();

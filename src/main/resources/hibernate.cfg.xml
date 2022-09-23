@@ -12,7 +12,11 @@
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>
 
-<!--        <mapping class="ru.michaelshell.entity.User"/>-->
+        <mapping class="ru.michaelshell.entity.User"/>
+        <mapping class="ru.michaelshell.entity.Company"/>
+        <mapping class="ru.michaelshell.entity.Profile"/>
+        <mapping class="ru.michaelshell.entity.Chat"/>
+        <mapping class="ru.michaelshell.entity.UserChat"/>
 
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->

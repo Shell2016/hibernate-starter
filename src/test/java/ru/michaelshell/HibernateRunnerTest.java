@@ -4,19 +4,62 @@ import lombok.Cleanup;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Test;
-import ru.michaelshell.entity.Company;
-import ru.michaelshell.entity.User;
+import ru.michaelshell.entity.*;
 import ru.michaelshell.util.HibernateUtil;
 
 import javax.persistence.Column;
 import javax.persistence.Table;
 import java.lang.reflect.Field;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Optional;
 
 import static java.util.stream.Collectors.joining;
 
 class HibernateRunnerTest {
+
+    @Test
+    void manyToMany() {
+
+        try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+             Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            User user = session.get(User.class, 3L);
+            Chat chat = session.get(Chat.class, 1L);
+            UserChat userChat = UserChat.builder()
+                    .createdAt(Instant.now())
+                    .createdBy(user.getUsername())
+                    .build();
+            userChat.setChat(chat);
+            userChat.setUser(user);
+            session.save(userChat);
+
+            session.getTransaction().commit();
+        }
+    }
+
+    @Test
+    void oneToOne() {
+        @Cleanup SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
+        @Cleanup Session session = sessionFactory.openSession();
+
+        session.beginTransaction();
+
+
+        User user = User.builder()
+                .username("abc2")
+                .build();
+        Profile profile = Profile.builder()
+                .street("Tverskaya 9")
+                .language("en")
+                .build();
+        profile.setUser(user);
+        session.save(user);
+
+        session.getTransaction().commit();
+
+    }
 
     @Test
     void orphanRemoval() {
