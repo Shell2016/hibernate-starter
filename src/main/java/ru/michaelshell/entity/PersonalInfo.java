@@ -17,7 +17,6 @@ public class PersonalInfo{
     private String firstname;
     private String lastname;
 
-//    @Column(name = "birth_date")
 //    @Convert(converter = BirthdayConverter.class)
     private Birthday birthDate;
 }

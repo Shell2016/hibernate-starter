@@ -3,7 +3,9 @@ package ru.michaelshell.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -26,6 +28,14 @@ public class Company {
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
 //    @JoinColumn(name = "company_id")
     private Set<User> users = new HashSet<>();
+
+    @Builder.Default
+    @ElementCollection
+    @CollectionTable(name = "company_locale",
+            joinColumns = @JoinColumn(name = "company_id")) //joinColumns не обязательно здесь
+    private List<LocaleInfo> locales = new ArrayList<>();
+//    @Column(name = "description")
+//    private List<String> description = new ArrayList<>();
 
     public void addUser(User user) {
         users.add(user);

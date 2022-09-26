@@ -3,8 +3,8 @@ package ru.michaelshell.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -24,5 +24,5 @@ public class Chat {
 
     @OneToMany(mappedBy = "chat")
     @Builder.Default
-    private Set<UserChat> userChats = new HashSet<>();
+    private List<UserChat> userChats = new ArrayList<>();
 }
