@@ -27,18 +27,20 @@ public class Company {
 //    @JoinColumn(name = "company_id")
 //    @OrderBy("personalInfo.lastname ASC")
     @SortNatural
-    private Set<User> users = new TreeSet<>();
+    @MapKey(name = "username")
+    private Map<String, User> users = new HashMap<>();
 
     @Builder.Default
     @ElementCollection
     @CollectionTable(name = "company_locale",
             joinColumns = @JoinColumn(name = "company_id")) //joinColumns не обязательно здесь
-    private List<LocaleInfo> locales = new ArrayList<>();
-//    @Column(name = "description")
-//    private List<String> description = new ArrayList<>();
+//    private List<LocaleInfo> locales = new ArrayList<>();
+    @MapKeyColumn(name = "lang")
+    @Column(name = "description")
+    private Map<String, String> locales = new HashMap<>();
 
     public void addUser(User user) {
-        users.add(user);
+        users.put(user.getUsername(), user);
         user.setCompany(this);
     }
 }
