@@ -28,7 +28,7 @@ public class Company {
 //    @OrderBy("personalInfo.lastname ASC")
     @SortNatural
     @MapKey(name = "username")
-    private Map<String, User> users = new HashMap<>();
+    private Map<String, User> users = new TreeMap<>();
 
     @Builder.Default
     @ElementCollection

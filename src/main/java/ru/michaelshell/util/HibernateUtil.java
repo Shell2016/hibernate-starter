@@ -11,13 +11,18 @@ import ru.michaelshell.converter.BirthdayConverter;
 public class HibernateUtil {
 
     public static SessionFactory buildSessionFactory() {
+        Configuration configuration = buildConfiguration();
+        configuration.configure();
+        return configuration.buildSessionFactory();
+    }
+
+    public static Configuration buildConfiguration() {
         Configuration configuration = new Configuration();
         configuration.addAttributeConverter(new BirthdayConverter());
         configuration.registerTypeOverride(new JsonBinaryType());
 //        configuration.addAnnotatedClass(User.class);
 //        configuration.addAnnotatedClass(Company.class);
         configuration.setPhysicalNamingStrategy(new CamelCaseToUnderscoresNamingStrategy());
-        configuration.configure();
-        return configuration.buildSessionFactory();
+        return configuration;
     }
 }

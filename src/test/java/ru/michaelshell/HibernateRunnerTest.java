@@ -6,6 +6,7 @@ import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Test;
 import ru.michaelshell.entity.*;
 import ru.michaelshell.util.HibernateUtil;
+import util.HibernateTestUtil;
 
 import javax.persistence.Column;
 import javax.persistence.Table;
@@ -17,6 +18,21 @@ import java.util.Optional;
 import static java.util.stream.Collectors.joining;
 
 class HibernateRunnerTest {
+
+    @Test
+    void checkDockerTestContainer() {
+        try (SessionFactory sessionFactory = HibernateTestUtil.buildSessionFactory();
+             Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            var google = Company.builder()
+                    .name("Google")
+                    .build();
+            session.save(google);
+
+            session.getTransaction().commit();
+        }
+    }
 
     @Test
     void localeInfo() {
@@ -31,7 +47,6 @@ class HibernateRunnerTest {
 //            System.out.println(company.getDescription());
             System.out.println(company.getLocales());
 //            company.getUsers().forEach((k,v) -> System.out.println(v));
-
 
 
             session.getTransaction().commit();
