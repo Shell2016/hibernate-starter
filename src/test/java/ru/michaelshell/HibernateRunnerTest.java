@@ -20,6 +20,41 @@ import static java.util.stream.Collectors.joining;
 class HibernateRunnerTest {
 
     @Test
+    void tablePerClass() {
+        try (SessionFactory sessionFactory = HibernateTestUtil.buildSessionFactory();
+             Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+
+            var google = Company.builder()
+                    .name("Google")
+                    .build();
+            session.save(google);
+
+            var programmer = Programmer.builder()
+                    .username("Shell2016")
+                    .language(Language.JAVA)
+                    .company(google)
+                    .build();
+            session.save(programmer);
+
+            var manager = Manager.builder()
+                    .username("Manager2016")
+                    .projectName("Java project")
+                    .company(google)
+                    .build();
+            session.save(manager);
+            session.flush();
+            session.clear();
+
+            var programmer1 = session.get(Programmer.class, 1L);
+            var manager1 = session.get(User.class, 2L);
+
+            session.getTransaction().commit();
+        }
+    }
+
+
+    @Test
     void checkDockerTestContainer() {
         try (SessionFactory sessionFactory = HibernateTestUtil.buildSessionFactory();
              Session session = sessionFactory.openSession()) {
@@ -82,15 +117,15 @@ class HibernateRunnerTest {
         session.beginTransaction();
 
 
-        User user = User.builder()
-                .username("abc2")
-                .build();
-        Profile profile = Profile.builder()
-                .street("Tverskaya 9")
-                .language("en")
-                .build();
-        profile.setUser(user);
-        session.save(user);
+//        User user = User.builder()
+//                .username("abc2")
+//                .build();
+//        Profile profile = Profile.builder()
+//                .street("Tverskaya 9")
+//                .language("en")
+//                .build();
+//        profile.setUser(user);
+//        session.save(user);
 
         session.getTransaction().commit();
 
@@ -133,11 +168,11 @@ class HibernateRunnerTest {
         Company company = Company.builder()
                 .name("Yandex")
                 .build();
-        User user = User.builder()
-                .username("Shell123")
-                .build();
-        company.addUser(user);
-        session.save(company);
+//        User user = User.builder()
+//                .username("Shell123")
+//                .build();
+//        company.addUser(user);
+//        session.save(company);
 
         session.getTransaction().commit();
 
@@ -162,8 +197,9 @@ class HibernateRunnerTest {
     @Test
     void checkReflectionApi() throws IllegalAccessException {
 
-        User user = User.builder()
-                .build();
+//        User user = User.builder()
+//                .build();
+        User user = null;
 
         String sql = """
                 insert into

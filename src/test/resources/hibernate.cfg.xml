@@ -11,11 +11,11 @@
         <!--        DB schema will be updated if needed-->
         <property name="hibernate.hbm2ddl.auto">update</property>
 
-        <mapping class="ru.michaelshell.entity.User"/>
-        <mapping class="ru.michaelshell.entity.Company"/>
-        <mapping class="ru.michaelshell.entity.Profile"/>
-        <mapping class="ru.michaelshell.entity.Chat"/>
-        <mapping class="ru.michaelshell.entity.UserChat"/>
+<!--        <mapping class="ru.michaelshell.entity.User"/>-->
+<!--        <mapping class="ru.michaelshell.entity.Company"/>-->
+<!--        <mapping class="ru.michaelshell.entity.Profile"/>-->
+<!--        <mapping class="ru.michaelshell.entity.Chat"/>-->
+<!--        <mapping class="ru.michaelshell.entity.UserChat"/>-->
 
     </session-factory>
 </hibernate-configuration>
