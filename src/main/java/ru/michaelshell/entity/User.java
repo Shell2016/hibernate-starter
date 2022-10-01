@@ -15,11 +15,12 @@ import java.util.List;
 @EqualsAndHashCode(of = "username")
 @ToString(exclude = {"company", "profile", "userChats"})
 @Entity
+@Builder
 @Table(name = "users")
 @TypeDef(name = "testType", typeClass = JsonBinaryType.class)
-@Inheritance(strategy = InheritanceType.JOINED)
+//@Inheritance(strategy = InheritanceType.JOINED)
 //@DiscriminatorColumn(name = "type")   // Для Inheritance Single Table, Без аннотации - dtype
-public abstract class User implements Comparable<User>, BaseEntity<Long> {
+public class User implements Comparable<User>, BaseEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,13 +49,21 @@ public abstract class User implements Comparable<User>, BaseEntity<Long> {
             fetch = FetchType.LAZY)
     private Profile profile;
 
-
+    @Builder.Default
     @OneToMany(mappedBy = "user")
     private List<UserChat> userChats = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "receiver")
+    private List<Payment> payments = new ArrayList<>();
 
     @Override
     public int compareTo(User o) {
         return username.compareTo(o.username);
+    }
+
+    public String fullName() {
+        return getPersonalInfo().getFirstname() + " " + getPersonalInfo().getLastname();
     }
 }
 

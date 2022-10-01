@@ -6,7 +6,7 @@ import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Test;
 import ru.michaelshell.entity.*;
 import ru.michaelshell.util.HibernateUtil;
-import util.HibernateTestUtil;
+import ru.michaelshell.util.HibernateTestUtil;
 
 import javax.persistence.Column;
 import javax.persistence.Table;
@@ -19,39 +19,39 @@ import static java.util.stream.Collectors.joining;
 
 class HibernateRunnerTest {
 
-    @Test
-    void inheritanceTest() {
-        try (SessionFactory sessionFactory = HibernateTestUtil.buildSessionFactory();
-             Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
-
-            var google = Company.builder()
-                    .name("Google")
-                    .build();
-            session.save(google);
-
-            var programmer = Programmer.builder()
-                    .username("Shell2016")
-                    .language(Language.JAVA)
-                    .company(google)
-                    .build();
-            session.save(programmer);
-
-            var manager = Manager.builder()
-                    .username("Manager2016")
-                    .projectName("Java project")
-                    .company(google)
-                    .build();
-            session.save(manager);
-            session.flush();
-            session.clear();
-
-            var programmer1 = session.get(Programmer.class, 1L);
-            var manager1 = session.get(User.class, 2L);
-
-            session.getTransaction().commit();
-        }
-    }
+//    @Test
+//    void inheritanceTest() {
+//        try (SessionFactory sessionFactory = HibernateTestUtil.buildSessionFactory();
+//             Session session = sessionFactory.openSession()) {
+//            session.beginTransaction();
+//
+//            var google = Company.builder()
+//                    .name("Google")
+//                    .build();
+//            session.save(google);
+//
+//            var programmer = Programmer.builder()
+//                    .username("Shell2016")
+//                    .language(Language.JAVA)
+//                    .company(google)
+//                    .build();
+//            session.save(programmer);
+//
+//            var manager = Manager.builder()
+//                    .username("Manager2016")
+//                    .projectName("Java project")
+//                    .company(google)
+//                    .build();
+//            session.save(manager);
+//            session.flush();
+//            session.clear();
+//
+//            var programmer1 = session.get(Programmer.class, 1L);
+//            var manager1 = session.get(User.class, 2L);
+//
+//            session.getTransaction().commit();
+//        }
+//    }
 
 
     @Test

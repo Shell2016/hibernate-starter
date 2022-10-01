@@ -38,6 +38,8 @@ dependencies {
 //    testImplementation 'com.h2database:h2:1.4.200'
     testImplementation 'org.testcontainers:postgresql:1.16.3'
 //    testImplementation 'org.testcontainers:postgresql:1.17.3'
+    testImplementation 'org.assertj:assertj-core:3.23.1'
+
 
 
 

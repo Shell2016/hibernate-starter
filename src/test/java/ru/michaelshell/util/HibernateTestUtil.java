@@ -1,10 +1,9 @@
-package util;
+package ru.michaelshell.util;
 
 import lombok.experimental.UtilityClass;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.testcontainers.containers.PostgreSQLContainer;
-import ru.michaelshell.util.HibernateUtil;
 
 
 @UtilityClass
