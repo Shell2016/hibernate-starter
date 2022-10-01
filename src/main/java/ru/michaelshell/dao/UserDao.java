@@ -3,13 +3,10 @@ package ru.michaelshell.dao;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
-import ru.michaelshell.entity.*;
+import ru.michaelshell.entity.Payment;
+import ru.michaelshell.entity.User;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -24,16 +21,17 @@ public class UserDao {
      * Возвращает всех сотрудников
      */
     public List<User> findAll(Session session) {
-
+//
 //        return session.createQuery("select u from User u", User.class)
 //                .list();
 
-        CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery<User> criteria = cb.createQuery(User.class);
-        Root<User> user = criteria.from(User.class);
-        criteria.select(user);
-
-        return session.createQuery(criteria).list();
+//        CriteriaBuilder cb = session.getCriteriaBuilder();
+//        CriteriaQuery<User> criteria = cb.createQuery(User.class);
+//        Root<User> user = criteria.from(User.class);
+//        criteria.select(user);
+//
+//        return session.createQuery(criteria).list();
+        return Collections.emptyList();
 
     }
 
@@ -45,15 +43,15 @@ public class UserDao {
 //                .setParameter("firstName", firstName)
 //                .list();
 
-        var cb = session.getCriteriaBuilder();
-        var criteriaQuery = cb.createQuery(User.class);
-        var user = criteriaQuery.from(User.class);
-        criteriaQuery.select(user).where(
-                cb.equal(user.get(User_.personalInfo).get(PersonalInfo_.firstname), firstName)
-        );
-
-
-        return session.createQuery(criteriaQuery).list();
+//        var cb = session.getCriteriaBuilder();
+//        var criteriaQuery = cb.createQuery(User.class);
+//        var user = criteriaQuery.from(User.class);
+//        criteriaQuery.select(user).where(
+//                cb.equal(user.get(User_.personalInfo).get(PersonalInfo_.firstname), firstName)
+//        );
+//
+//        return session.createQuery(criteriaQuery).list();
+        return Collections.emptyList();
     }
 
     /**
@@ -99,25 +97,26 @@ public class UserDao {
 //                .setParameter("lastName", lastName)
 //                .uniqueResult();
 
-        var cb = session.getCriteriaBuilder();
-        var criteria = cb.createQuery(Double.class);
-
-        var payment = criteria.from(Payment.class);
-        var user = payment.join(Payment_.receiver);
-
-        List<Predicate> predicates = new ArrayList<>();
-        if (firstName != null) {
-            predicates.add(cb.equal(user.get(User_.personalInfo).get(PersonalInfo_.firstname), firstName));
-        }
-        if (lastName != null) {
-            predicates.add(cb.equal(user.get(User_.personalInfo).get(PersonalInfo_.lastname), lastName));
-        }
-
-        criteria.select(cb.avg(payment.get(Payment_.amount))).where(
-                predicates.toArray(Predicate[]::new)
-        );
-
-        return session.createQuery(criteria).uniqueResult();
+//        var cb = session.getCriteriaBuilder();
+//        var criteria = cb.createQuery(Double.class);
+//
+//        var payment = criteria.from(Payment.class);
+//        var user = payment.join(Payment_.receiver);
+//
+//        List<Predicate> predicates = new ArrayList<>();
+//        if (firstName != null) {
+//            predicates.add(cb.equal(user.get(User_.personalInfo).get(PersonalInfo_.firstname), firstName));
+//        }
+//        if (lastName != null) {
+//            predicates.add(cb.equal(user.get(User_.personalInfo).get(PersonalInfo_.lastname), lastName));
+//        }
+//
+//        criteria.select(cb.avg(payment.get(Payment_.amount))).where(
+//                predicates.toArray(Predicate[]::new)
+//        );
+//
+//        return session.createQuery(criteria).uniqueResult();
+        return null;
 
     }
 
