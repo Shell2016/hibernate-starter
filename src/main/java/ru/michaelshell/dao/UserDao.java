@@ -3,9 +3,13 @@ package ru.michaelshell.dao;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
-import ru.michaelshell.entity.Payment;
-import ru.michaelshell.entity.User;
+import ru.michaelshell.entity.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -21,17 +25,35 @@ public class UserDao {
      */
     public List<User> findAll(Session session) {
 
-        return session.createQuery("select u from User u", User.class)
-                .list();
+//        return session.createQuery("select u from User u", User.class)
+//                .list();
+
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<User> criteria = cb.createQuery(User.class);
+        Root<User> user = criteria.from(User.class);
+        criteria.select(user);
+
+        return session.createQuery(criteria).list();
+
     }
 
     /**
      * Возвращает всех сотрудников с указанным именем
      */
     public List<User> findAllByFirstName(Session session, String firstName) {
-        return session.createQuery("select u from User u where u.personalInfo.firstname = :firstName", User.class)
-                .setParameter("firstName", firstName)
-                .list();
+//        return session.createQuery("select u from User u where u.personalInfo.firstname = :firstName", User.class)
+//                .setParameter("firstName", firstName)
+//                .list();
+
+        var cb = session.getCriteriaBuilder();
+        var criteriaQuery = cb.createQuery(User.class);
+        var user = criteriaQuery.from(User.class);
+        criteriaQuery.select(user).where(
+                cb.equal(user.get(User_.personalInfo).get(PersonalInfo_.firstname), firstName)
+        );
+
+
+        return session.createQuery(criteriaQuery).list();
     }
 
     /**
@@ -70,13 +92,32 @@ public class UserDao {
      * Возвращает среднюю зарплату сотрудника с указанными именем и фамилией
      */
     public Double findAveragePaymentAmountByFirstAndLastNames(Session session, String firstName, String lastName) {
-        return session.createQuery("select avg(p.amount) from Payment p " +
-                                   "join p.receiver u " +
-                                   "where u.personalInfo.firstname = :firstName and u.personalInfo.lastname = :lastName", Double.class)
-                .setParameter("firstName", firstName)
-                .setParameter("lastName", lastName)
-                .uniqueResult();
+//        return session.createQuery("select avg(p.amount) from Payment p " +
+//                                   "join p.receiver u " +
+//                                   "where u.personalInfo.firstname = :firstName and u.personalInfo.lastname = :lastName", Double.class)
+//                .setParameter("firstName", firstName)
+//                .setParameter("lastName", lastName)
+//                .uniqueResult();
 
+        var cb = session.getCriteriaBuilder();
+        var criteria = cb.createQuery(Double.class);
+
+        var payment = criteria.from(Payment.class);
+        var user = payment.join(Payment_.receiver);
+
+        List<Predicate> predicates = new ArrayList<>();
+        if (firstName != null) {
+            predicates.add(cb.equal(user.get(User_.personalInfo).get(PersonalInfo_.firstname), firstName));
+        }
+        if (lastName != null) {
+            predicates.add(cb.equal(user.get(User_.personalInfo).get(PersonalInfo_.lastname), lastName));
+        }
+
+        criteria.select(cb.avg(payment.get(Payment_.amount))).where(
+                predicates.toArray(Predicate[]::new)
+        );
+
+        return session.createQuery(criteria).uniqueResult();
 
     }
 
