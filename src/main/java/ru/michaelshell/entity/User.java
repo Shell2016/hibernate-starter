@@ -7,13 +7,15 @@ import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "username")
-@ToString(exclude = {"company", "profile", "userChats"})
+@ToString(exclude = {"company", "userChats"})
 @Entity
 @Builder
 @Table(name = "users")
@@ -44,14 +46,14 @@ public class User implements Comparable<User>, BaseEntity<Long> {
     @JoinColumn(name = "company_id") //не обязательно в нашем случае
     private Company company;
 
-    @OneToOne(mappedBy = "user",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
-    private Profile profile;
+//    @OneToOne(mappedBy = "user",
+//            cascade = CascadeType.ALL,
+//            fetch = FetchType.LAZY)
+//    private Profile profile;
 
     @Builder.Default
     @OneToMany(mappedBy = "user")
-    private List<UserChat> userChats = new ArrayList<>();
+    private Set<UserChat> userChats = new HashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "receiver")

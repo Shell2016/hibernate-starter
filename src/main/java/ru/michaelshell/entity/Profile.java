@@ -25,9 +25,9 @@ public class Profile {
     private String street;
     private String language;
 
-    public void setUser(User user) {
-        user.setProfile(this);
-        this.user = user;
-    }
+//    public void setUser(User user) {
+//        user.setProfile(this);
+//        this.user = user;
+//    }
 
 }

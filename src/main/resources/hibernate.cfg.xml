@@ -11,16 +11,16 @@
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL10Dialect</property>
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>
+<!--        DB schema will be updated if needed-->
+        <property name="hibernate.hbm2ddl.auto">validate</property>
 
-<!--        <mapping class="ru.michaelshell.entity.User"/>-->
-<!--        <mapping class="ru.michaelshell.entity.Company"/>-->
-<!--        <mapping class="ru.michaelshell.entity.Profile"/>-->
-<!--        <mapping class="ru.michaelshell.entity.Chat"/>-->
-<!--        <mapping class="ru.michaelshell.entity.UserChat"/>-->
-<!--        <mapping class="ru.michaelshell.entity.Programmer"/>-->
-<!--        <mapping class="ru.michaelshell.entity.Manager"/>-->
+        <!--        <mapping class="ru.michaelshell.entity.User"/>-->
+        <!--        <mapping class="ru.michaelshell.entity.Company"/>-->
+        <!--        <mapping class="ru.michaelshell.entity.Profile"/>-->
+        <!--        <mapping class="ru.michaelshell.entity.Chat"/>-->
+        <!--        <mapping class="ru.michaelshell.entity.UserChat"/>-->
+        <!--        <mapping class="ru.michaelshell.entity.Programmer"/>-->
+        <!--        <mapping class="ru.michaelshell.entity.Manager"/>-->
 
-        <!-- DB schema will be updated if needed -->
-        <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->
     </session-factory>
 </hibernate-configuration>
