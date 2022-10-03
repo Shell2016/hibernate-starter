@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.SessionFactory;
 import ru.michaelshell.entity.Payment;
 import ru.michaelshell.util.HibernateUtil;
+import ru.michaelshell.util.TestDataImporter;
 
 import javax.transaction.Transactional;
 import java.sql.SQLException;
@@ -17,22 +18,22 @@ public class HibernateRunner {
     public static void main(String[] args) throws SQLException {
 
         try (SessionFactory sessionFactory = HibernateUtil.buildSessionFactory();
-             var session = sessionFactory.openSession();
-             var session2 = sessionFactory.openSession()) {
+             var session = sessionFactory.openSession()) {
+
+            TestDataImporter.importData(sessionFactory);
 
 //            session.doWork(connection -> System.out.println(connection.getTransactionIsolation()));
             session.beginTransaction();
-            session2.beginTransaction();
+
 
             var payment = session.get(Payment.class, 1L);
-            payment.setAmount(100);
+            payment.setAmount(10000);
 
-            var samePayment = session2.get(Payment.class, 1L);
-            samePayment.setAmount(200);
+
 
 
             session.getTransaction().commit();
-            session2.getTransaction().commit();
+
         }
     }
 }

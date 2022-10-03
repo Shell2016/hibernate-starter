@@ -13,7 +13,7 @@
         <property name="format_sql">true</property>
 <!--        <property name="hibernate.connection.isolation">8</property>-->
 <!--        DB schema will be updated if needed-->
-        <property name="hibernate.hbm2ddl.auto">validate</property>
+        <property name="hibernate.hbm2ddl.auto">create</property>
 
         <!--        <mapping class="ru.michaelshell.entity.User"/>-->
         <!--        <mapping class="ru.michaelshell.entity.Company"/>-->
