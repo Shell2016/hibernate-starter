@@ -10,16 +10,21 @@ import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+//@NamedEntityGraph(name = "withCompany",
+//        attributeNodes = {
+//                @NamedAttributeNode("company")
+//        })
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "username")
-@ToString(exclude = {"company", "userChats"})
+@ToString(exclude = {"company", "userChats", "payments"})
 @Entity
 @Builder
 @Table(name = "users")
@@ -36,6 +41,7 @@ public class User implements Comparable<User>, BaseEntity<Long> {
 
     //    @Embedded - не обязательно
 //    @AttributeOverride(name = "birthDate", column = @Column(name = "birth_date"))
+    @Valid
     private PersonalInfo personalInfo;
 
     @Column(unique = true)
