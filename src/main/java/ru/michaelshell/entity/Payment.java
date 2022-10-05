@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.OptimisticLockType;
 import org.hibernate.annotations.OptimisticLocking;
+import org.hibernate.envers.Audited;
 
 import javax.persistence.*;
 
@@ -17,6 +18,7 @@ import javax.persistence.*;
 @Entity
 @OptimisticLocking(type = OptimisticLockType.ALL)
 @DynamicUpdate
+@Audited
 public class Payment implements BaseEntity<Long>{
 
 //    @Version

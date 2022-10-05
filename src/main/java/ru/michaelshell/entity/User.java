@@ -2,8 +2,12 @@ package ru.michaelshell.entity;
 
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -20,6 +24,8 @@ import java.util.Set;
 @Builder
 @Table(name = "users")
 @TypeDef(name = "testType", typeClass = JsonBinaryType.class)
+@Audited
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 //@Inheritance(strategy = InheritanceType.JOINED)
 //@DiscriminatorColumn(name = "type")   // Для Inheritance Single Table, Без аннотации - dtype
 public class User implements Comparable<User>, BaseEntity<Long> {
@@ -51,8 +57,10 @@ public class User implements Comparable<User>, BaseEntity<Long> {
 //            fetch = FetchType.LAZY)
 //    private Profile profile;
 
+    @NotAudited
     @Builder.Default
     @OneToMany(mappedBy = "user")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<UserChat> userChats = new HashSet<>();
 
     @Builder.Default

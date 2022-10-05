@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -13,6 +15,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @Entity
 @Table(name = "users_chat")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class UserChat extends AuditableEntity<Long>{
 
     @Id

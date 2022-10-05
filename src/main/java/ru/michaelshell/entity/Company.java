@@ -1,10 +1,19 @@
 package ru.michaelshell.entity;
 
 import lombok.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.SortNatural;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
+
+
+
 
 @Entity
 @Data
@@ -13,6 +22,8 @@ import java.util.*;
 @ToString(exclude = "users")
 @EqualsAndHashCode(of = "name")
 @Builder
+@Audited
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Company {
 
     @Id
@@ -30,6 +41,7 @@ public class Company {
     @MapKey(name = "username")
     private Map<String, User> users = new TreeMap<>();
 
+
     @Builder.Default
     @ElementCollection
     @CollectionTable(name = "company_locale",
@@ -37,6 +49,7 @@ public class Company {
 //    private List<LocaleInfo> locales = new ArrayList<>();
     @MapKeyColumn(name = "lang")
     @Column(name = "description")
+    @NotAudited
     private Map<String, String> locales = new HashMap<>();
 
     public void addUser(User user) {
